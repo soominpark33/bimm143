@@ -1,0 +1,153 @@
+---
+title: "Class 9: Structural Bioinformatics"
+author: "Soomin Park"
+format: pdf
+---
+
+# Protien Data Bank (PDB) Statistics
+
+The PDB is the main database for structural information on biomolecules. Let's see what it contains:
+
+```{r}
+db <- read.csv("Data Export Summary.csv")
+db
+```
+
+> Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+
+```{r}
+# remove commas 
+gsub("," , "", db$X.ray)
+# convert character to numeric
+as.numeric(gsub("," , "", db$X.ray))
+# find the sum
+sum(as.numeric(gsub("," , "", db$X.ray)))
+
+xray.total <- sum(as.numeric(gsub("," , "", db$X.ray)))
+print(xray.total)
+em.total <- sum(as.numeric(gsub("," , "", db$EM)))
+print(em.total)
+```
+
+Hmm... I am doing the same thing over and over. Time to write a function.
+
+```{r}
+# I will work with 'x' as input and make a working snippet. 
+
+x <- db$X.ray
+sum(as.numeric(gsub("," , "", x)))
+
+# Code > Extract Function 
+
+sum_comma <- function(x) {
+  # Substitute the comma and convert to numeric 
+  sum(as.numeric(gsub("," , "", x)))
+}
+```
+
+```{r}
+# Test the function
+sum_comma(db$X.ray)
+sum_comma(db$Total)
+```
+
+Now we can use the function to find the percentage of structures solved by X-ray
+
+```{r}
+sum_comma(db$X.ray) / sum_comma(db$Total) * 100
+```
+
+For Electron Microscopy:
+
+```{r}
+sum_comma(db$EM) / sum_comma(db$Total) * 100
+```
+
+> Q2: What proportion of structures in the PDB are protein?
+
+```{r}
+# find the total number of protein and remove comma. (There are two ways)
+sum_comma(db[1, 8])
+sum_comma(db$Total[1])
+
+sum_comma(db$Total[1]) / sum_comma(db$Total) 
+
+# round  the number
+round(sum_comma(db$Total[1]) / sum_comma(db$Total), 2)
+```
+
+> Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+
+![HIV-PR structure from MERK with a bound drug](1HSG.png)
+
+
+# Visualizing the HIV-1 protease structure
+
+> Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?
+
+The structure is too low a resolution to see H atoms. You need a sub 1 Angstrom resolution to see Hydrogen.
+
+> Q5: There is a critical "conserved" water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have
+
+HOH308
+
+# Working with Structures in R (Introduction to Bio3D in R)
+
+We can use the `bio3d` package to read and perform bioinformatics calculations on PDB structures. 
+
+```{r}
+library(bio3d)
+
+pdb <- read.pdb("1hsg")
+pdb
+
+```
+
+> Q7: How many amino acid residues are there in this pdb object? 
+
+198
+
+> Q8: Name one of the two non-protein residues? 
+
+MK1
+
+> Q9: How many protein chains are in this structure? 
+
+2
+
+
+```{r}
+attributes(pdb)
+```
+
+```{r}
+head(pdb$atom)
+```
+
+```{r}
+adk <- read.pdb("6s36")
+adk
+```
+
+Perform a prediction of flexibility with a technique called NMA (normal mode analysis)
+
+```{r}
+# Perform flexiblity prediction
+m <- nma(adk)
+plot(m)
+```
+
+Write out a "movie" of the motion for viewing in MolStar 
+
+```{r}
+mktrj(m, file="adk_m7.pdb")
+```
+
+
+
+
+
+
+
+
+
