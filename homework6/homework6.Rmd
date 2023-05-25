@@ -1,0 +1,73 @@
+---
+title: "homework6"
+author: "Soomin Park"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+> Q6. How would you generalize the original code above to work with any set of input protein structures? Write your own function starting from the code above that analyzes protein drug interactions by reading in any protein PDB data and outputs a plot for the specified protein. Create a new RMarkdown document with your function code AND example output. We also suggest you include narrative text that address the rubric items below. Generate a PDF report and submit this PDF to our GradeScope site.
+
+```{r}
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s1, chain="A", elety="CA")
+
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+Make a simple snippet
+```{r}
+pdb_code <- "4AKE"
+
+pdb <- read.pdb(pdb_code)
+
+chain <- trim.pdb(pdb, chain="A", elety="CA")
+
+plotb3(chain$atom$b, sse=chain, type="l", ylab="Bfactor")
+```
+
+Make a function that will allow us to plot using the pdb code. 
+```{r}
+analyze_pdb_code <- function(pdb_code) {
+  # Read in the PDB file
+  pdb <- read.pdb(pdb_code)
+  
+  # Trim the structure to only include the CA atoms of chain A
+  chain <- trim.pdb(pdb, chain="A", elety="CA")
+  
+  # Extract the B-factors
+  b_factors <- chain$atom$b
+  
+  # Plot the B-factors with secondary structure elements
+  plotb3(b_factors, sse=chain, typ="l", ylab="Bfactor")
+}
+```
+
+Example usage
+```{r}
+analyze_pdb_code("4AKE")
+```
+
+Check if the function works with the other pdb codes.
+```{r}
+analyze_pdb_code("1AKE")
+
+analyze_pdb_code("1E4Y")
+# Now we can plot using the function, avoiding mistakes. 
+```
+
+
+
+
