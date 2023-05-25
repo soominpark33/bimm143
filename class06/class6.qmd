@@ -1,0 +1,126 @@
+---
+title: "Class 6: R Function"
+author: "Soomin Park"
+format: html
+---
+
+> Q1. Write a function grade() to determine an overall grade from a vector of student homework assignment scores dropping the lowest single score. If a student misses a homework (i.e. has an NA value) this can be used as a score to be potentially dropped. Your final function should be adquately explained with code comments and be able to work on an example class gradebook such as this one in CSV format: “https://tinyurl.com/gradeinput” [3pts]
+
+# Example input vectors to start with
+student1 <- c(100, 100, 100, 100, 100, 100, 100, 90)
+student2 <- c(100, NA, 90, 90, 90, 90, 97, 80)
+student3 <- c(90, NA, NA, NA, NA, NA, NA, NA)
+
+```{r}
+# Example input vectors to start with
+student1 <- c(100, 100, 100, 100, 100, 100, 100, 90)
+student2 <- c(100, NA, 90, 90, 90, 90, 97, 80)
+student3 <- c(90, NA, NA, NA, NA, NA, NA, NA)
+```
+
+We can use the `mean()` function to calculate the average for a given student vector.
+```{r}
+mean(student1)
+```
+
+We can use `na.rm = TRUE` argument to exclude the NA values from the mean. 
+```{r}
+mean(student2, na.rm = TRUE)
+```
+
+It would be unfair to exclude the NA values to calculate the average. 
+```{r}
+mean(student3, na.rm = TRUE)
+```
+
+We can try to mask all NA values with zero. We need to find the NA elements of the vector first.
+```{r}
+x <- student2
+is.na(x)
+```
+
+```{r}
+which(is.na(x))
+```
+
+We have identified the NA elements we want to "mask". We can try masking them with zero.
+```{r}
+# This does not quite get us there
+mean(x[-which(is.na(x))])
+```
+
+Instead, we will make the NA elements zero.
+```{r}
+x[is.na(x)] <- 0
+x
+mean(x)
+```
+
+It is time to work with new temp object (that I will call `y`) so I don't screw up my original objects
+```{r}
+y <- student3
+y[is.na(y)] <- 0
+mean(y)
+```
+
+Finally, we want to drop the lowest score before calculating the mean. This is equivalent to allowing the student to drop their worst assignment score. 
+
+I can use the minus sign together with `which.min()` to exclude the lowest value:
+```{r}
+x <- student1
+x
+x[-which.min(x)]
+```
+
+Now I need to put this all back together to make our working snippet:
+```{r}
+x <- student3
+x
+
+# Map/Replace NA values to zero
+x[ is.na(x) ] <- 0
+
+# Exclude the lowest score and calculate the mean
+mean( x[ -which.min(x) ] )
+
+```
+
+Cool! This is my working snippet that I can turn into a first function called `grade()`
+
+All functions in R have at least 3 things:
+
+- **Name**, in our case "grade"
+- Input **arguments**, student 1 etc. 
+- **Body**, this is our working snipept above. 
+
+```{r}
+grade <- function (x) {
+  # Map/Replace NA values to zero
+  x[ is.na(x) ] <- 0
+
+  # Exclude the lowest score and calculate the mean
+  mean( x[ -which.min(x) ] )
+}
+```
+
+Can I use this function now?
+```{r}
+grade(student1)
+```
+
+Read a gradebook from online: 
+```{r}
+hw <- read.csv("https://tinyurl.com/gradeinput", row.names = 1)
+hw
+```
+
+We can use th `apply()` function to grade all the students in this class with out new `grade()` function.
+
+The `apply()` function allows us to run any function over either the rows or columns of a data.frame. Let's see how it works: 
+```{r}
+apply(hw, 1, grade)
+```
+
+
+
+
