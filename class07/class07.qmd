@@ -1,0 +1,201 @@
+---
+title: "Class 7: Clustering and PCA"
+author: "Soomin Park"
+format: pdf
+---
+
+#Clustering
+
+First, let's amke up some data to cluster so we can get a feel for these methods and how to work with them. 
+
+We can use the `rnorm()` function to get random numbers from a normal distribution around a given `mean`. 
+```{r}
+hist( rnorm (5000, mean = 3) )
+```
+
+Let's get 30 points with a mean of 3 and another 30 with a mean of -3.
+```{r}
+tmp <- c(rnorm(30, mean = 3), rnorm(30, mean = -3))
+tmp
+```
+
+Put two of these together:
+```{r}
+x <- cbind(x = tmp, y = rev(tmp))
+plot(x)
+```
+
+## K-means clustering.
+
+Very popular clustering method that we can use with the `kmeans` function in base R.  
+
+```{r}
+km <- kmeans(x, center = 2)
+km
+```
+
+```{r}
+km$size
+```
+
+
+Use the kmeans() function setting k to 2 and nstart = 0
+Inspect / print the results
+> Q. How mnay points are in each cluster?
+
+```{r}
+km$size
+```
+**There are 30 points in each cluster **
+
+> Q. What 'component' of your result object details
+
+- cluster size?
+  
+```{r}
+km$size
+```
+
+- cluster assignment / membership?
+  
+```{r}
+km$cluster
+```
+
+- cluster center?
+  
+```{r}
+km$centers
+```
+
+  
+> Plot x colored by the kmeans cluster assignent and add cluster centers as blue points. 
+
+```{r}
+plot(x, col=km$cluster)
+points(km$centers, col="blue", pch=15, cex=3)
+```
+
+> Q. Let's cluster into 3 groups or same `x` data and make a plot.
+
+```{r}
+km <- kmeans(x, center = 3)
+plot (x, col=km$cluster)
+```
+
+# Hierarchical Clustering
+
+We can use the `hclust()` function for Hierarchical Clustering
+Unlike `kmeans()` where we could just pass in our data as input, we need to give `hclust()` a "distance matrix". 
+
+We will use the `dist()` function to start with.
+
+```{r}
+d <- dist(x)
+hc <- hclust(d)
+hc
+```
+
+```{r}
+plot(hc)
+```
+
+I can now "cut" my tree with the `cutree()` to yield a cluster membership vector. 
+
+```{r}
+grps <- cutree(hc, h = 8)
+plot(x, col=grps)
+```
+
+You can also tell `cutree()` to cut where it yield "k" groups.
+
+```{r}
+cutree(hc, k=2)
+```
+
+# Principal Component Analysis (PCA)
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url, row.names = 1)
+x
+# setting row.names = 1 fixes the issues of having 5 columns, first one being x with food items. 
+```
+
+> Q1. How many rows and columns are in your new data frame named x? What R functions could you use to answer this questions?
+
+```{r}
+dim(x)
+```
+preview the first 6 rows
+```{r}
+head(x)
+```
+
+
+
+```{r}
+
+```
+
+
+
+> Q2. Which approach to solving the ‘row-names problem’ mentioned above do you prefer and why? Is one approach more robust than another under certain circumstances?
+
+** I prefer the `x <- read.csv(url, row.names=1)` method as it is shorter and more straight-forward. Further, running  the first approach code block (i.e. the one with x <- x[,-1]), multiple times may result in errors.**
+
+#Spotting major differences and trends
+
+```{r}
+barplot(as.matrix(x), beside=T, col=rainbow(nrow(x)))
+```
+
+> Q3: Changing what optional argument in the above barplot() function results in the following plot?
+
+setting beside=FALSE in the boxplot() code will provide the graph with elements stacked instead of side by side.
+
+
+> Q5: Generating all pairwise plots may help somewhat. Can you make sense of the following code and resulting figure? What does it mean if a given point lies on the diagonal for a given plot?
+
+```{r}
+pairs(x, col=rainbow(10), pch=16)
+```
+The resulting figure shows the relationship between the amount of food consumption in two countries. For example, the bottom plot of the first column explains the food consumption relationship between England and N. Ireland, where the y-axis is N. Ireland and the a-axis is England. Diagonal lines indicate the similarity in food items between two countries being plotted. The points below the diagonal line indicate that that element of food item is consumed by the x-axis country, while the points above the diagonal line indicate that the element of food item is consumed by the y-axis country.
+
+> Q6. What is the main differences between N. Ireland and the other countries of the UK in terms of this data-set?
+
+Blue food item is consumed more often in N. Ireland in comparison to the other countries of the UK, where as orange food item is less frequently consumed in N. Ireland comparatively. 
+
+# PCA to the rescue
+
+The main PCA function in base R is called `prcomp()` it expects the transpose of our data. 
+
+```{r}
+# Use the prcomp() PCA function 
+pca <- prcomp ( t(x) )
+summary(pca)
+```
+
+```{r}
+attributes(pca)
+```
+
+```{r}
+pca$x
+```
+
+
+> Q7. Complete the code below to generate a plot of PC1 vs PC2. The second line adds text labels over the data points.
+
+```{r}
+# Plot PC1 vs PC2
+plot(pca$x[,1], pca$x[,2], xlab="PC1", ylab="PC2", xlim=c(-270,500))
+text(pca$x[,1], pca$x[,2], colnames(x))
+```
+
+> Q8. Customize your plot so that the colors of the country names match the colors in our UK and Ireland map and table at start of this document.
+
+```{r}
+plot(pca$x[,1], pca$x[,2], col = c("orange", "red", "blue", "darkgreen"), xlab="PC1", ylab="PC2", xlim=c(-270,500), pch = 15)
+text(pca$x[,1], pca$x[,2], colnames(x))
+```
