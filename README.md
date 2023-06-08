@@ -26,3 +26,4 @@ From class [BIMM143](https://bioboot.github.io/bimm143_S23/)
 - Class 16: **Analyzing sequencing data in the cloud** [source code](https://github.com/soominpark33/bimm143/blob/main/lab16ec/lab16ec.qmd) | [pdf](https://github.com/soominpark33/bimm143/blob/main/lab16ec/lab16ec.pdf)
 
 - Class 17: **Investigating Pertussis resurgence** [source code](https://github.com/soominpark33/bimm143/blob/main/class17pertussis/Pertussis.qmd) | [pdf](https://github.com/soominpark33/bimm143/blob/main/class17pertussis/Pertussis.pdf)
+
