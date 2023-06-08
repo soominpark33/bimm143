@@ -1,0 +1,37 @@
+---
+title: "Homework15"
+author: Soomin Park
+format: pdf
+---
+
+# Read the data file
+```{r}
+data <- read.table("results.tsv")
+head(data)
+```
+
+# Set column names
+
+```{r}
+colnames(data) <- c("qseqid", "sseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore")
+
+```
+
+# Generate histogram
+```{r}
+hist(data$bitscore, breaks = 30, main = "Histogram of bitscore values", 
+     xlab = "Bitscore", ylab = "Frequency")
+```
+
+# 
+```{r}
+library(ggplot2)
+ggplot(data, aes(pident, bitscore)) + geom_point(alpha=0.1) 
+```
+
+
+```{r}
+ggplot(data, aes((data$pident * (data$qend - data$qstart)), bitscore)) + geom_point(alpha=0.1) + geom_smooth()
+```
+
+
