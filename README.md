@@ -16,6 +16,7 @@ From class [BIMM143](https://bioboot.github.io/bimm143_S23/)
 - Class 11: **Genome informatics** [source code](https://github.com/soominpark33/bimm143/blob/main/class11online/genomeinformatics.qmd)
    
    - **Halloween Candy Mini Project** [source code](https://github.com/soominpark33/bimm143/blob/main/Class11/halloweencandy.qmd)
+   - [source code](https://github.com/soominpark33/bimm143/blob/main/Class11/halloweencandy.pdf)
 
 - Class 12: **Transcriptomics and the analysis of RNA-Seq data** [source code](https://github.com/soominpark33/bimm143/blob/main/class12/class12.qmd)
 
