@@ -20,3 +20,9 @@ From class [BIMM143](https://bioboot.github.io/bimm143_S23/)
 - Class 12: **Transcriptomics and the analysis of RNA-Seq data** [source code](https://github.com/soominpark33/bimm143/blob/main/class12/class12.qmd)
 
 - Class 13: **RNA-Seq analysis mini-project** [source code](https://github.com/soominpark33/bimm143/blob/main/Class13/Class13.qmd)
+
+- Class 15: **Essential UNIX for bioinformatics**[source code](https://github.com/soominpark33/bimm143/blob/main/class15/homework15.qmd)
+
+- Class 16: **Analyzing sequencing data in the cloud** [source code](https://github.com/soominpark33/bimm143/blob/main/lab16ec/lab16ec.qmd)
+- 
+- Class 17: **Investigating Pertussis resurgence** [source code](https://github.com/soominpark33/bimm143/blob/main/class17pertussis/Pertussis.qmd)
