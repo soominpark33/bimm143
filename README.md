@@ -3,7 +3,7 @@ My Bioinformatics work from Spring 2023 at UC San Diego
 
 From class [BIMM143](https://bioboot.github.io/bimm143_S23/)
 
-- Class 05: **Data Visualization with ggplot2** [source code](https://github.com/soominpark33/bimm143/blob/main/class05/class05.qmd)
+- Class 05: **Data Visualization with ggplot2** [source code](https://github.com/soominpark33/bimm143/blob/main/class05/class05.qmd) [pdf](https://github.com/soominpark33/bimm143/blob/main/class05/class05.pdf)
 
 - Class 06: **R functions** [source code](https://github.com/soominpark33/bimm143/blob/main/class06/class6.qmd)
 
@@ -16,7 +16,7 @@ From class [BIMM143](https://bioboot.github.io/bimm143_S23/)
 - Class 11: **Genome informatics** [source code](https://github.com/soominpark33/bimm143/blob/main/class11online/genomeinformatics.qmd)
    
    - **Halloween Candy Mini Project** [source code](https://github.com/soominpark33/bimm143/blob/main/Class11/halloweencandy.qmd)
-   - [source code](https://github.com/soominpark33/bimm143/blob/main/Class11/halloweencandy.pdf)
+   - pdf[source code](https://github.com/soominpark33/bimm143/blob/main/Class11/halloweencandy.pdf)
 
 - Class 12: **Transcriptomics and the analysis of RNA-Seq data** [source code](https://github.com/soominpark33/bimm143/blob/main/class12/class12.qmd)
 
