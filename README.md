@@ -9,3 +9,8 @@ From class [BIMM143](https://bioboot.github.io/bimm143_S23/)
 
 - Class 07: **Introduction to machine learning for Bioinformatics** [source code](https://github.com/soominpark33/bimm143/blob/main/class07/class07.qmd)
 
+- Class 09: **Structural Bioinformatics (pt1)** [source code](https://github.com/soominpark33/bimm143/blob/main/class09/class9.qmd)
+
+- Class 10: **Structural Bioinformatics (pt2)** [source code](https://github.com/soominpark33/bimm143/blob/main/class10/class10.qmd)
+
+- Class 11: 
